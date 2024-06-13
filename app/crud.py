@@ -1,33 +1,15 @@
 from sqlalchemy.orm import Session
-from .models import Order, Stock, Sale
-from .schemas import OrderCreate, StockCreate, SaleCreate
+from . import models, schemas
 
-def get_orders(db: Session, skip: int = 0, limit: int = 10):
-    return db.query(Order).offset(skip).limit(limit).all()
+def get_report_detail(db: Session, report_detail_id: int):
+    return db.query(models.ReportDetail).filter(models.ReportDetail.id == report_detail_id).first()
 
-def create_order(db: Session, order: OrderCreate):
-    db_order = Order(**order.dict())
-    db.add(db_order)
+def get_report_details(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.ReportDetail).offset(skip).limit(limit).all()
+
+def create_report_detail(db: Session, report_detail: schemas.ReportDetailCreate):
+    db_report_detail = models.ReportDetail(**report_detail.dict())
+    db.add(db_report_detail)
     db.commit()
-    db.refresh(db_order)
-    return db_order
-
-def get_stocks(db: Session, skip: int = 0, limit: int = 10):
-    return db.query(Stock).offset(skip).limit(limit).all()
-
-def create_stock(db: Session, stock: StockCreate):
-    db_stock = Stock(**stock.dict())
-    db.add(db_stock)
-    db.commit()
-    db.refresh(db_stock)
-    return db_stock
-
-def get_sales(db: Session, skip: int = 0, limit: int = 10):
-    return db.query(Sale).offset(skip).limit(limit).all()
-
-def create_sale(db: Session, sale: SaleCreate):
-    db_sale = Sale(**sale.dict())
-    db.add(db_sale)
-    db.commit()
-    db.refresh(db_sale)
-    return db_sale
+    db.refresh(db_report_detail)
+    return db_report_detail

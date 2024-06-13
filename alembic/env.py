@@ -18,14 +18,20 @@ fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-from app.models import Base
+from sqlalchemy.ext.declarative import declarative_base
+
+# from app.models import Base
+
+Base = declarative_base()
+
 target_metadata = Base.metadata
+
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-
+config.set_main_option('sqlalchemy.url', os.getenv('DATABASE_URL'))
 
 def run_migrations_offline():
     """Run migrations in 'offline' mode.
@@ -36,7 +42,7 @@ def run_migrations_offline():
     Calls to context.execute() here emit the given string to the
     script output.
     """
-    url = os.getenv("DATABASE_URL")
+    url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url, target_metadata=target_metadata, literal_binds=True, dialect_opts={"paramstyle": "named"}
     )
@@ -44,28 +50,20 @@ def run_migrations_offline():
     with context.begin_transaction():
         context.run_migrations()
 
-
 def run_migrations_online():
     """Run migrations in 'online' mode.
     In this scenario we need to create an Engine
     and associate a connection with the context.
     """
-    configuration = config.get_section(config.config_ini_section)
-    configuration["sqlalchemy.url"] = os.getenv("DATABASE_URL")
     connectable = engine_from_config(
-        configuration,
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
+        config.get_section(config.config_ini_section), prefix="sqlalchemy.", poolclass=pool.NullPool
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()
-
 
 if context.is_offline_mode():
     run_migrations_offline()

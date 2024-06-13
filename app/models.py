@@ -1,27 +1,69 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime
+from sqlalchemy import Column, Integer, String, Date, Float, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 
-class Order(Base):
-    __tablename__ = 'orders'
-
+class ReportDetail(Base):
+    __tablename__ = 'report_details'
     id = Column(Integer, primary_key=True, index=True)
-    date = Column(DateTime)
-    order_id = Column(String, index=True)
-    total = Column(Float)
-
-class Stock(Base):
-    __tablename__ = 'stocks'
-
-    id = Column(Integer, primary_key=True, index=True)
-    product_id = Column(String, index=True)
+    realizationreport_id = Column(Integer)
+    date_from = Column(Date)
+    date_to = Column(Date)
+    create_dt = Column(Date)
+    currency_name = Column(String)
+    suppliercontract_code = Column(String)
+    rrd_id = Column(Integer)
+    gi_id = Column(Integer)
+    subject_name = Column(String)
+    nm_id = Column(Integer)
+    brand_name = Column(String)
+    sa_name = Column(String)
+    ts_name = Column(String)
+    barcode = Column(String)
+    doc_type_name = Column(String)
     quantity = Column(Integer)
-
-class Sale(Base):
-    __tablename__ = 'sales'
-
-    id = Column(Integer, primary_key=True, index=True)
-    sale_id = Column(String, index=True)
-    amount = Column(Float)
-    date = Column(DateTime)
+    retail_price = Column(Float)
+    retail_amount = Column(Float)
+    sale_percent = Column(Float)
+    commission_percent = Column(Float)
+    office_name = Column(String)
+    supplier_oper_name = Column(String)
+    order_dt = Column(Date)
+    sale_dt = Column(Date)
+    rr_dt = Column(Date)
+    shk_id = Column(Integer)
+    retail_price_withdisc_rub = Column(Float)
+    delivery_amount = Column(Float)
+    return_amount = Column(Float)
+    delivery_rub = Column(Float)
+    gi_box_type_name = Column(String)
+    product_discount_for_report = Column(Float)
+    supplier_promo = Column(Float)
+    rid = Column(Integer)
+    ppvz_spp_prc = Column(Float)
+    ppvz_kvw_prc_base = Column(Float)
+    ppvz_kvw_prc = Column(Float)
+    sup_rating_prc_up = Column(Float)
+    is_kgvp_v2 = Column(Integer)
+    ppvz_sales_commission = Column(Float)
+    ppvz_for_pay = Column(Float)
+    ppvz_reward = Column(Float)
+    acquiring_fee = Column(Float)
+    acquiring_bank = Column(String)
+    ppvz_vw = Column(Float)
+    ppvz_vw_nds = Column(Float)
+    ppvz_office_id = Column(Integer)
+    ppvz_office_name = Column(String)
+    ppvz_supplier_id = Column(Integer)
+    ppvz_supplier_name = Column(String)
+    ppvz_inn = Column(String)
+    declaration_number = Column(String)
+    bonus_type_name = Column(String)
+    sticker_id = Column(Integer)
+    site_country = Column(String)
+    penalty = Column(Float)
+    additional_payment = Column(Float)
+    rebill_logistic_cost = Column(Float)
+    rebill_logistic_org = Column(String)
+    kiz = Column(String)
+    srid = Column(Integer)
